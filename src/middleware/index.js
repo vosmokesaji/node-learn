@@ -7,9 +7,17 @@ const myLogger = function(req,res,next){
 }
 app.use(myLogger);
 
+const Timer = function(req, res, next){
+    req.requestTimer = Date.now();
+    next()
+}
+app.use(Timer);
+
 // logger 必须在它上边，才能输出 logged
 app.get('/', function (req, res) {
-    res.send("你好，中间件！")
+    let responseText = "你好 中间件<br>";
+    responseText += "<small>请求时间："+req.requestTimer+"</small>"
+    res.send(responseText);
 })
 
 
