@@ -1,5 +1,6 @@
 const express = require("express")
 const app = express()
+const myMiddleware = require("./my-middleware")
 
 const myLogger = function(req,res,next){
     console.log("logged");
@@ -12,6 +13,12 @@ const Timer = function(req, res, next){
     next()
 }
 app.use(Timer);
+
+app.use(myMiddleware({
+    a: 1,
+    b: 2
+}))
+
 
 // logger 必须在它上边，才能输出 logged
 app.get('/', function (req, res) {
